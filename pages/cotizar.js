@@ -1,4 +1,3 @@
-nano pages/cotizar.js
 import { useState } from 'react';
 import { supabase } from '../lib/supabaseClient';
 
@@ -21,62 +20,49 @@ export default function Cotizar() {
       return;
     }
 
-    const { data, error } = await supabase.from('leads').insert([
+    const { error } = await supabase.from('leads').insert([
       {
         nombre: form.nombre,
-        correo: form.correo,
-        tipo_seguro: form.tipo,
-        fuente: 'cotizar_web',
-        fecha: new Date().toISOString(),
+        email: form.correo,
+        mensaje: form.tipo,
       },
     ]);
 
     if (error) {
-      console.error('Error:', error.message);
-      alert('Hubo un error al guardar tus datos.');
-      return;
+      alert('Hubo un error al guardar el lead.');
+      console.error(error);
+    } else {
+      alert('¡Lead enviado con éxito!');
+      // Redirigir a WhatsApp automáticamente (ajusta el número si lo deseas)
+      const mensaje = `Hola, soy ${form.nombre} y estoy interesado en un seguro de tipo: ${form.tipo}`;
+      window.location.href = `https://wa.me/1XXXXXXXXXX?text=${encodeURIComponent(mensaje)}`;
     }
 
-    const mensaje = `Hola, soy ${form.nombre} y quiero cotizar un seguro de ${form.tipo}.`;
-    const whatsappUrl = `https://wa.me/1XXXXXXXXXX?text=${encodeURIComponent(mensaje)}`;
-    window.location.href = whatsappUrl;
+    setForm({ nombre: '', correo: '', tipo: '' });
   };
 
   return (
-    <main className="p-4">
-      <h1 className="text-2xl font-bold mb-4">Cotiza tu seguro</h1>
-      <form onSubmit={handleSubmit} className="space-y-4 max-w-md">
-        <input
-          type="text"
-          name="nombre"
-          placeholder="Nombre completo"
-          value={form.nombre}
-          onChange={handleChange}
-          className="border p-2 w-full"
-        />
-        <input
-          type="email"
-          name="correo"
-          placeholder="Correo electrónico"
-          value={form.correo}
-          onChange={handleChange}
-          className="border p-2 w-full"
-        />
-        <input
-          type="text"
-          name="tipo"
-          placeholder="Tipo de seguro"
-          value={form.tipo}
-          onChange={handleChange}
-          className="border p-2 w-full"
-        />
-        <button
-          type="submit"
-          className="bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700"
-        >
-          Enviar
-        </button>
+    <div style={{ maxWidth: '500px', margin: 'auto', padding: '20px' }}>
+      <h1>Cotiza tu seguro</h1>
+      <form onSubmit={handleSubmit}>
+        <label>Nombre completo</label>
+        <input type="text" name="nombre" value={form.nombre} onChange={handleChange} required />
+
+        <label>Correo electrónico</label>
+        <input type="email" name="correo" value={form.correo} onChange={handleChange} required />
+
+        <label>Tipo de seguro</label>
+        <select name="tipo" value={form.tipo} onChange={handleChange} required>
+          <option value="">Selecciona uno</option>
+          <option value="auto">Auto</option>
+          <option value="salud">Salud</option>
+          <option value="vida">Vida</option>
+          <option value="hogar">Hogar</option>
+          <option value="comercial">Comercial</option>
+        </select>
+
+        <button type="submit">Enviar</button>
       </form>
-    </main>
+    </div>
   );
 }
