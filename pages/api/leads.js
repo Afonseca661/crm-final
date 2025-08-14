@@ -5,6 +5,11 @@ const admin = createClient(
   process.env.SUPABASE_SERVICE_ROLE_KEY
 );
 
+function unauthorized(res) {
+  res.setHeader('WWW-Authenticate', 'Basic realm="Secure Area"');
+  return res.status(401).json({ error: 'Auth required' });
+}
+
 export default async function handler(req, res) {
   try {
     if (req.method === 'POST') {
@@ -16,6 +21,17 @@ export default async function handler(req, res) {
     }
 
     if (req.method === 'GET') {
+      const auth = req.headers.authorization || '';
+      const [scheme, encoded] = auth.split(' ');
+      if (scheme !== 'Basic' || !encoded) return unauthorized(res);
+
+      let decoded;
+      try { decoded = Buffer.from(encoded, 'base64').toString('utf8'); } catch { return unauthorized(res); }
+      const [user, pass] = decoded.split(':');
+      if (user !== process.env.ADMIN_USER || pass !== process.env.ADMIN_PASS) {
+        return res.status(403).json({ error: 'Forbidden' });
+      }
+
       const limit = Math.min(parseInt(String(req.query.limit ?? '50'), 10) || 50, 200);
       const { data, error } = await admin
         .from('leads_app')
