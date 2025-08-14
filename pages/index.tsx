@@ -1,4 +1,5 @@
 import Head from 'next/head';
+import Image from 'next/image';
 import { useState, ChangeEvent, FormEvent } from 'react';
 
 type FormType = {
@@ -68,25 +69,70 @@ export default function Home() {
   const inputClass =
     'block w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-slate-900 placeholder-slate-400 outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/30';
 
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'InsuranceAgency',
+    name: 'Del Toro Insurance — Irving (Franquicia)',
+    url: 'https://www.seguroconfonseca.com/',
+    image: 'https://www.seguroconfonseca.com/del-toro-logo.png',
+    address: {
+      '@type': 'PostalAddress',
+      addressLocality: 'Irving',
+      addressRegion: 'TX',
+      addressCountry: 'US',
+      // TODO: agrega calle si quieres mayor precisión
+    },
+    // TODO: reemplaza con tu teléfono real en formato internacional
+    telephone: 'REEMPLAZA_CON_TU_TELEFONO',
+    areaServed: [
+      'Irving, TX',
+      'Dallas, TX',
+      'Fort Worth, TX',
+      'Dallas–Fort Worth Metroplex',
+    ],
+    sameAs: [], // puedes agregar redes si quieres
+  };
+
   return (
     <>
       <Head>
-        <title>Seguro con Fonseca — Cotiza y te llamamos</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title>Del Toro Insurance Irving | Cotiza en el Metroplex (Dallas–Fort Worth)</title>
         <meta
           name="description"
-          content="Cotiza tu seguro en minutos. Déjanos tus datos y un asesor te contacta rápido."
+          content="Franquicia de Del Toro Insurance en Irving. Cotiza tu seguro (auto, comercial, transporte y más). Atención rápida para Irving, Dallas y Fort Worth."
         />
+        <link rel="icon" href="/del-toro-logo.png" />
+        <meta property="og:title" content="Del Toro Insurance Irving — Cotiza en minutos" />
+        <meta
+          property="og:description"
+          content="Atendemos Irving, Dallas y Fort Worth. Déjanos tus datos y te contactamos con la mejor opción."
+        />
+        <meta property="og:url" content="https://www.seguroconfonseca.com/" />
+        <meta property="og:type" content="website" />
+        <meta property="og:image" content="/del-toro-logo.png" />
+        <meta name="twitter:card" content="summary" />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
       </Head>
 
       <div className="min-h-screen bg-gradient-to-b from-slate-50 to-white">
         {/* Topbar */}
         <header className="sticky top-0 z-20 border-b border-slate-200/60 bg-white/80 backdrop-blur">
           <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3">
-            <div className="flex items-center gap-2">
-              <div className="h-8 w-8 rounded-full bg-indigo-600" />
+            <div className="flex items-center gap-3">
+              <Image
+                src="/del-toro-logo.png"
+                alt="Del Toro Insurance — Irving"
+                width={36}
+                height={36}
+                className="h-9 w-9 rounded-full object-contain ring-1 ring-slate-200"
+                priority
+              />
               <span className="text-lg font-semibold tracking-tight text-slate-900">
-                Seguro<span className="text-indigo-600">Fonseca</span>
+                Del Toro Insurance <span className="text-indigo-600">Irving</span>
               </span>
             </div>
             <a
@@ -103,13 +149,14 @@ export default function Home() {
           <div className="grid items-center gap-10 md:grid-cols-2">
             <div>
               <h1 className="text-3xl font-bold leading-tight text-slate-900 md:text-5xl">
-                Seguros bien cotizados.
+                Seguros bien cotizados en{' '}
+                <span className="text-indigo-600">Irving</span>.
                 <br />
-                <span className="text-indigo-600">Asesoría rápida y clara.</span>
+                Metroplex: Dallas — Fort Worth.
               </h1>
               <p className="mt-4 text-slate-600 md:text-lg">
-                Déjanos tus datos y te contactamos para darte la mejor opción según tu necesidad:
-                auto, comercial, transporte y más.
+                Somos franquicia de Del Toro Insurance en Irving. Déjanos tus datos y te
+                contactamos rápido para cotizar auto, comercial, transporte y más.
               </p>
 
               {/* Trust badges */}
@@ -118,10 +165,10 @@ export default function Home() {
                   ✅ Atención en menos de 1 hora
                 </span>
                 <span className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-3 py-1">
-                  🔒 Datos seguros
+                  📍 Irving • Dallas • Fort Worth
                 </span>
                 <span className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-3 py-1">
-                  ⭐️ Clientes satisfechos
+                  🔒 Datos seguros
                 </span>
               </div>
             </div>
@@ -129,7 +176,7 @@ export default function Home() {
             {/* Form Card */}
             <div id="cotizar">
               <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-md md:p-6">
-                <h2 className="text-xl font-semibold text-slate-900">Captura de Leads</h2>
+                <h2 className="text-xl font-semibold text-slate-900">Cotiza en minutos</h2>
                 <p className="mt-1 text-sm text-slate-600">
                   Completa el formulario y un asesor te contactará.
                 </p>
@@ -305,7 +352,7 @@ export default function Home() {
             {[
               { t: 'Atención rápida', d: 'Te contactamos en menos de 1 hora hábil.' },
               { t: 'Opciones a medida', d: 'Cotizamos lo que realmente necesitas.' },
-              { t: 'Acompañamiento', d: 'Te guiamos en siniestros y renovaciones.' },
+              { t: 'Cobertura local', d: 'Irving, Dallas y Fort Worth (Metroplex).' },
             ].map((f) => (
               <div
                 key={f.t}
@@ -321,12 +368,12 @@ export default function Home() {
         {/* Footer */}
         <footer className="border-t border-slate-200/70 bg-white">
           <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-3 px-4 py-6 text-sm text-slate-600 md:flex-row">
-            <span>© {new Date().getFullYear()} SeguroFonseca. Todos los derechos reservados.</span>
+            <span>© {new Date().getFullYear()} Del Toro Insurance — Irving. Todos los derechos reservados.</span>
             <a className="hover:text-slate-900" href="#cotizar">Quiero cotizar</a>
           </div>
         </footer>
 
-        {/* WhatsApp flotante (reemplaza TU_NUMERO con tu número en formato internacional, sin +) */}
+        {/* WhatsApp flotante (reemplaza TU_NUMERO y descomenta) */}
         {/* <a
           href="https://wa.me/TU_NUMERO?text=Hola%20quiero%20cotizar%20un%20seguro"
           className="fixed bottom-5 right-5 z-30 inline-flex h-14 w-14 items-center justify-center rounded-full bg-green-500 text-white shadow-lg hover:bg-green-600"
