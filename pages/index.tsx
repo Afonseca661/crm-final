@@ -74,7 +74,7 @@ export default function Home() {
     '@type': 'InsuranceAgency',
     name: 'Del Toro Insurance — Irving (Franquicia)',
     url: 'https://www.seguroconfonseca.com/',
-    image: 'https://www.seguroconfonseca.com/del-toro-logo-v2.png',
+    image: 'https://www.seguroconfonseca.com/del-toro-logo-v3.png',
     address: {
       '@type': 'PostalAddress',
       addressLocality: 'Irving',
@@ -101,7 +101,7 @@ export default function Home() {
           name="description"
           content="Franquicia de Del Toro Insurance en Irving. Cotiza tu seguro (auto, comercial, transporte y más). Atención rápida para Irving, Dallas y Fort Worth."
         />
-        <link rel="icon" href="/del-toro-logo-v2.png" />
+        <link rel="icon" href="/del-toro-logo-v3.png" />
         <meta property="og:title" content="Del Toro Insurance Irving — Cotiza en minutos" />
         <meta
           property="og:description"
@@ -109,7 +109,7 @@ export default function Home() {
         />
         <meta property="og:url" content="https://www.seguroconfonseca.com/" />
         <meta property="og:type" content="website" />
-        <meta property="og:image" content="/del-toro-logo-v2.png" />
+        <meta property="og:image" content="/del-toro-logo-v3.png" />
         <meta name="twitter:card" content="summary" />
         <script
           type="application/ld+json"
@@ -124,7 +124,7 @@ export default function Home() {
           <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3">
             <div className="flex items-center gap-3">
               <Image
-                src="/del-toro-logo-v2.png"
+                src="/del-toro-logo-v3.png"
                 alt="Del Toro Insurance — Irving"
                 width={36}
                 height={36}
