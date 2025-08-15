@@ -1,3 +1,4 @@
+<<<<<<< Updated upstream
 
 import { useState } from 'react';
 import { createClient } from '@supabase/supabase-js';
@@ -85,3 +86,28 @@ ${['casa', 'inquilinos'].includes(form.tipo) ? `Dirección: ${form.direccion}` :
     </div>
   );
 }
+=======
+const handleSubmit = async (e) => {
+  e.preventDefault();
+
+  try {
+    const { data, error } = await supabase.from('leads').insert([form]);
+
+    if (error) {
+      console.error('Error al guardar el lead:', error);
+      alert('Hubo un error al enviar tu información. Intenta nuevamente.');
+      return;
+    }
+
+    // ✅ Mensaje y redirección a WhatsApp
+    const mensaje = `Hola, soy ${form.nombre} y estoy interesado en un seguro de tipo: ${form.tipo}`;
+    const telefono = '14694556391'; // ← Reemplaza con tu número real (con código de país)
+    window.location.href = `https://api.whatsapp.com/send?phone=${telefono}&text=${encodeURIComponent(mensaje)}`;
+
+  } catch (err) {
+    console.error('Error inesperado:', err);
+    alert('Hubo un error inesperado. Intenta más tarde.');
+  }
+};
+
+>>>>>>> Stashed changes
